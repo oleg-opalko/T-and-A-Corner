@@ -15,7 +15,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
 python manage.py migrate
-python manage.py load_demo_data   # optional: demo products from mockup
+python manage.py load_demo_data   # опційно: демо-товари з макету
 python manage.py createsuperuser
 python manage.py runserver
 ```
@@ -26,22 +26,76 @@ python manage.py runserver
 ## Структура проєкту
 
 ```
-config/          # Налаштування Django
-shop/            # Каталог, бренди, парфуми
-pages/           # Статичні сторінки (головна)
-templates/       # HTML-шаблони
-static/          # CSS, JS, зображення
-media/           # Завантажені файли (товари, логотипи)
+config/                    # Налаштування Django
+shop/                      # Каталог, бренди, парфуми
+pages/                     # Статичні сторінки (головна, about, contact)
+templates/
+  base.html                # Базовий layout
+  includes/                # header, footer, product_card
+  pages/                   # home, about, contact, fragrance_guide
+  shop/                    # catalog, category, perfume_detail
+static/
+  css/main.css             # Стилі за макетом
+  js/main.js               # Hero-слайдер, мобільне меню
+  images/                  # Статичні зображення
+media/                     # Завантажені файли (товари, логотипи)
 ```
 
 ## Моделі
 
 - **Category** — категорії парфумів
-- **Brand** — бренди
-- **Perfume** — товари (назва, ціна, обʼєм, зображення)
+- **Brand** — бренди (з логотипом)
+- **Perfume** — товари: назва, slug, бренд, категорія, опис, `product_type`, ціна, обʼєм (мл), зображення, `is_available`, `is_featured`
+
+## Що додано
+
+### Ініціалізація проєкту
+- Django-проєкт `config` з `django-environ`, SQLite, uk-локаль, Europe/Kyiv
+- Додатки `shop` (каталог) та `pages` (сторінки)
+- `requirements.txt`: Django 5.1, django-environ, Pillow
+- `.env.example` для локальних змінних середовища
+- Міграції та адмін-панель для Category, Brand, Perfume
+
+### Інтеграція макету дизайну
+- **Header**: логотип T&A CORNER, навігація (Home, Collection, Fragrances, About Us, Fragrance Guide, Contact), іконки пошуку/акаунта, Cart (0)
+- **Hero-секція**: слайдер з 3 слайдами, індикатори 01/02/03, CTA «Discover Collection»
+- **Features bar**: 6 переваг (Premium Quality, Long Lasting, Exclusive Blends, Secure Payment, Free Shipping, Easy Returns)
+- **Our Collection**: сітка з 4 продуктами, картки з типом (Extrait de Parfum) і ціною
+- **Crafted With Passion**: блок «Every fragrance tells a story»
+- **Promo**: Fragrance Guide + Gift Sets
+- **Footer**: колонки Shop / Help / About, newsletter, соцмережі (Instagram, Facebook, TikTok)
+
+### Стилі та інтерактив
+- Шрифти: Cormorant Garamond (serif) + Jost (sans)
+- Палітра: cream/beige фон, gold-акценти (`#b8956b`)
+- Адаптив: hamburger-меню, 2-колонкова сітка продуктів на мобільному
+- `static/js/main.js`: автопрокрутка hero-слайдера, мобільне меню
+
+### Сторінки та маршрути
+- `/` — головна
+- `/catalog/` — каталог
+- `/category/<slug>/` — категорія
+- `/perfume/<slug>/` — картка товару
+- `/about/`, `/contact/`, `/fragrance-guide/` — сторінки-заглушки
+- `/admin/` — адмін-панель
+
+### Додатково
+- Поля моделі `product_type` та `is_featured` для відображення на головній
+- Template tag `currency` для форматування ціни (`$180.00`)
+- Команда `python manage.py load_demo_data` — 4 демо-товари з макету (Noir Éclat, Ambre Minuit, Velour Oud, Lunar Shadow)
+- Placeholder-зображення через Unsplash (поки немає власних фото товарів)
+
+## Що виправлено
+
+- Помилка в `config/urls.py` — некоректний імпорт `settings` (синтаксична помилка після генерації проєкту)
+- Помилка в `templates/includes/footer.html` — зламаний SVG-path для іконки TikTok
+- Помилка в `templates/shop/perfume_detail.html` — некоректний закриваючий тег `</h1>`
+- Оновлено `README`: прибрано застарілий пункт «Інтеграція макету дизайну» з «Наступних кроків» (макет уже інтегровано)
 
 ## Наступні кроки
 
-- Інтеграція макету дизайну
+- Підставити реальні фото замість placeholder-ів
 - Кошик та оформлення замовлення
 - Пошук і фільтри
+- Fragrance Guide quiz
+- Newsletter (збереження email у базу)
