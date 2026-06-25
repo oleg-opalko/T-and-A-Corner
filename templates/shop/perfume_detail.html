@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load shop_tags %}
+
+{% block title %}{{ perfume.name }}{% endblock %}
+
+{% block content %}
+<section class="site-main--inner">
+    <div class="container">
+        <article class="product-detail">
+            <div class="product-detail__media">
+                {% if perfume.image %}
+                <img src="{{ perfume.image.url }}" alt="{{ perfume.name }}">
+                {% else %}
+                <div class="product-card__placeholder" aria-hidden="true"></div>
+                {% endif %}
+            </div>
+            <div class="product-detail__info">
+                <p class="product-detail__brand">{{ perfume.brand.name }}</p>
+                <h1>{{ perfume.name }}</h1>
+                <p class="product-detail__meta">{{ perfume.category.name }} · {{ perfume.product_type }} · {{ perfume.volume_ml }} ml</p>
+                <p class="product-detail__price">{{ perfume.price|currency }}</p>
+                {% if perfume.description %}
+                <div class="product-detail__description">
+                    {{ perfume.description|linebreaks }}
+                </div>
+                {% endif %}
+                <button class="btn btn-gold" type="button">Add to Cart</button>
+            </div>
+        </article>
+    </div>
+</section>
+{% endblock %}

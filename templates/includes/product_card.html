@@ -1,0 +1,23 @@
+{% load shop_tags %}
+<article class="product-card">
+    <a href="{{ perfume.get_absolute_url }}" class="product-card__link">
+        <div class="product-card__image">
+            {% if perfume.image %}
+            <img src="{{ perfume.image.url }}" alt="{{ perfume.name }}">
+            {% else %}
+            <div class="product-card__placeholder" aria-hidden="true"></div>
+            {% endif %}
+            <button class="product-card__cart" type="button" aria-label="Add to cart" onclick="event.preventDefault();">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M6 6h15l-1.5 9h-12L6 6Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                    <path d="M6 6 5 3H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+        <div class="product-card__body">
+            <h3>{{ perfume.name|upper }}</h3>
+            <p class="product-card__type">{{ perfume.product_type }}</p>
+            <p class="product-card__price">{{ perfume.price|currency }}</p>
+        </div>
+    </a>
+</article>

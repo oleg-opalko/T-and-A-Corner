@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Fragrance Guide{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+    <div class="container">
+        <span class="eyebrow">Fragrance Guide</span>
+        <h1>Find your perfect scent.</h1>
+        <p>Discover the fragrance family that matches your personality. Our quiz is coming soon — explore the collection in the meantime.</p>
+        <a href="{% url 'shop:catalog' %}" class="btn btn-gold">Browse Fragrances</a>
+    </div>
+</section>
+{% endblock %}

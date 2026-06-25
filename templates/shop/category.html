@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load shop_tags %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+<section class="site-main--inner">
+    <div class="container">
+        <h1 class="page-title">{{ category.name }}</h1>
+        {% if category.description %}
+        <p class="empty-state">{{ category.description }}</p>
+        {% endif %}
+
+        {% if perfumes %}
+        <div class="product-grid">
+            {% for perfume in perfumes %}
+            {% include 'includes/product_card.html' %}
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty-state">No fragrances in this category yet.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
